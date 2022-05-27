@@ -1,65 +1,59 @@
-﻿using System;
-using System.Linq;
+﻿// Создать массив класса People(Guid, Дата рождения, Возраст) и заполнить его 100 случайными значениями.
+// Создать метод, который перенесет из него элементы несовершеннолетних людей в отдельный массив.
+// Вывести оба массива в консоль.
+// Примечание: совершеннолетие - старше 16 лет.
 
-namespace ConsoleApp4
+int[] array = new int[100];                                                    //все возраста
+int[] array16 = new int[100];                                                  //старше 16
+Guid[] name = new Guid[100];
+DateTime[] arrayDATE = new DateTime[100];
+Random random = new();
+
+for (int i = 0; i < array.Length; i++)                                         //цикл создания даты рождения
 {
-    class Program
+    DateTime startDate = new (1922, 1, 1);
+    DateTime newDate = startDate.AddDays(random.Next(36500));
+    DateTime today = DateTime.Today;
+
+    People.guid = Guid.NewGuid();
+
+    arrayDATE[i] = newDate;
+   
+    int age = today.Year - newDate.Year;                                       //вычисление возраста
+    if (newDate.AddYears(age) > today)
     {
-        static void Main(string[] args)
-        {
-            //Заполните массив действительными числами с помощью генератора случайных чисел(N элементов).
-            //Нас интересуют только числа массива, находящиеся в диапазоне -100 до 100, выведете:
-            //1) количество чисел диапазона
-            //2) сумму отрицательных чисел диапазона
-            //3) сумму положительных чисел диапазона
-
-            int min = -100, nol = 0, max = 100, x = 0, y = 0, neg = 0, pol = 0, rmin = -300, rmax = 300;
-            //min - Минимальное число диапазона, nol - Ноль, max - Максимальное число диапазона, x - длинна главного массива, y - Количество чисел диапазона,
-            //neg - сумма отрицательных чисел диапазона, pol - сумма положительных чисел диапазона, rmin - минимальное число рандома, rmax - максимальное число рандома
-
-            do                                                                                  //Защита от поломки из-за букв
-            {
-                Console.WriteLine("Введите количество элементов массива ");
-                if (masstrue() > 0)
-                    break;
-            } while (true);
-
-            int[] array = new int[x];                                                           //главный массив 
-            Random random = new();
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                array[i] = random.Next(rmin, rmax);
-                //Console.Write(array[i] + " ");
-            }
-
-            for (int i = 0; i < array.Length; i++)
-            {
-                if ((array[i] >= min) && (array[i] <= max))                                     //подсчёт количества чисел диапазона
-                    y++;
-
-                if ((array[i] < nol) && (array[i] >= min))                                     //подсчёт суммы отрицательных чисел
-                    neg += array[i];
-
-                if ((array[i] >= nol) && (array[i] <= max))                                     //подсчёт суммы положительных чисел
-                    pol += array[i];
-            }
-
-            Console.WriteLine("Сумма отрицательных чисел: " + neg);
-            Console.WriteLine("Сумма положительных чисел: " + pol);
-            Console.WriteLine("Количество чисел диапазона " + y);
-
-            var count = array.Count(x => x >= min && x <= max);
-            var neg1 = array.Where(x => x < nol && x >= min);
-
-            static int masstrue()
-            {
-                int x = 0;
-                bool result = int.TryParse(Console.ReadLine(), out x);
-                if (result == false)
-                    Console.WriteLine("Вводите цыфры, не буквы!");
-                return x;
-            }
-        }
+        age--;
     }
+
+    name[i] = People.guid;
+    array[i] = age;
+    Console.WriteLine(People.guid + " " + newDate + " " + age);
+}
+
+for (int i = 0; i < array16.Length; i++)
+{
+    if (array[i] > 16)
+    {
+        array16[i] = array[i];
+    }
+}
+
+Console.WriteLine("|");
+
+for (int i = 0; i < array16.Length; i++)                                       //вывод > 16
+{
+
+    if (array[i] > 16)
+    {
+        array16[i] = array[i];
+        Console.WriteLine(name[i] + " " + arrayDATE[i] + " " + array16[i]);
+    }
+
+}
+Console.ReadKey();
+
+public class People
+{
+    static public Guid guid;
+    static public DateTime birth;
 }

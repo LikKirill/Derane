@@ -3,57 +3,51 @@
 // Вывести оба массива в консоль.
 // Примечание: совершеннолетие - старше 16 лет.
 
-int[] array = new int[100];                                                    //все возраста
-int[] array16 = new int[100];                                                  //старше 16
-Guid[] name = new Guid[100];
-DateTime[] arrayDATE = new DateTime[100];
+
 Random random = new();
+People[] people = new People[100];
 
-for (int i = 0; i < array.Length; i++)                                         //цикл создания даты рождения
+for (int i = 0; i < 100; i++)                                         //цикл создания даты рождения, guid, вычисление возраста.
 {
-    DateTime startDate = new (1922, 1, 1);
-    DateTime newDate = startDate.AddDays(random.Next(36500));
-    DateTime today = DateTime.Today;
+    
+    DateOnly startDate = new(1922, 1, 1);
+    DateOnly newDate = startDate.AddDays(random.Next(36672));
+    DateOnly today = DateOnly.FromDateTime(DateTime.Now);
 
-    People.guid = Guid.NewGuid();
+    people[i] = new People();
 
-    arrayDATE[i] = newDate;
-   
     int age = today.Year - newDate.Year;                                       //вычисление возраста
-    if (newDate.AddYears(age) > today)
-    {
-        age--;
+    if (newDate.AddYears(age) > today)                                         //как работает:  возраст(age) = сегодняшний год(today.Year) - год сгенерированной даты(newDate.Year)
+    {                                                                          //если ( сгенерированная дата(newDate) + возраст(age) ) больше (>) сегодняшняя дата(today)
+        age--;                                                                 //возраст(age)--.
     }
 
-    name[i] = People.guid;
-    array[i] = age;
-    Console.WriteLine(People.guid + " " + newDate + " " + age);
+    people[i].Guid = Guid.NewGuid();
+    people[i].Birth = newDate;
+    people[i].Age = age;
+
+    
+
+    Console.WriteLine(people[i].Guid + " | " + people[i].Birth + " | " + people[i].Age);
+   
 }
 
-for (int i = 0; i < array16.Length; i++)
-{
-    if (array[i] > 16)
-    {
-        array16[i] = array[i];
-    }
-}
-
-Console.WriteLine("|");
-
-for (int i = 0; i < array16.Length; i++)                                       //вывод > 16
-{
-
-    if (array[i] > 16)
-    {
-        array16[i] = array[i];
-        Console.WriteLine(name[i] + " " + arrayDATE[i] + " " + array16[i]);
-    }
-
-}
-Console.ReadKey();
-
+//for (int i = 0; i < 100; i++)
+//    {
+//        int getsix()
+//    {
+//        int psixteen = 0;
+//        if (people[i].Age > 16)
+//        {
+//            psixteen = people[i].Age;
+//        }
+//        return psixteen;
+//    }
+//        Console.WriteLine(getsix);
+//    }
 public class People
 {
-    static public Guid guid;
-    static public DateTime birth;
+    public Guid Guid { get; set; }
+    public DateOnly Birth { get; set; } 
+    public int Age { get; set; }
 }

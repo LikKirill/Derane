@@ -24,9 +24,7 @@ namespace ConsoleApp4
                     Birth = d,
                     Age = DateTime.Now.Year - d.Year,
                 };
-                
             }
-
             PrintArray(FillArray(people));
             Console.WriteLine(" | ");
             PrintArray(FillArrayKID(people));
@@ -39,10 +37,6 @@ namespace ConsoleApp4
                 if (p.Age > 16)
                 {
                     result.Add(p);
-                }
-                else
-                {
-                    ;
                 }
             }
             return  result.ToArray();
@@ -57,10 +51,6 @@ namespace ConsoleApp4
                 {
                     result.Add(p);
                 }
-                else
-                {
-                    ;
-                }
             }
             return result.ToArray();
         }
@@ -71,7 +61,6 @@ namespace ConsoleApp4
             {
                 Console.WriteLine(p.Guid + " | " + p.Birth + " | " + p.Age);
             }
-            
         }
 
 public class People

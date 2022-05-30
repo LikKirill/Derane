@@ -1,53 +1,84 @@
-﻿// Создать массив класса People(Guid, Дата рождения, Возраст) и заполнить его 100 случайными значениями.
-// Создать метод, который перенесет из него элементы несовершеннолетних людей в отдельный массив.
-// Вывести оба массива в консоль.
-// Примечание: совершеннолетие - старше 16 лет.
+﻿using System;
+using System.Collections.Generic;
 
-
-Random random = new();
-People[] people = new People[100];
-
-for (int i = 0; i < 100; i++)                                         //цикл создания даты рождения, guid, вычисление возраста.
+namespace ConsoleApp4
 {
-    
-    DateOnly startDate = new(1922, 1, 1);
-    DateOnly newDate = startDate.AddDays(random.Next(36672));
-    DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Создать массив класса People(Guid, Дата рождения, Возраст) и заполнить его 100 случайными значениями.
+            // Создать метод, который перенесет из него элементы несовершеннолетних людей в отдельный массив.
+            // Вывести оба массива в консоль.
+            // Примечание: совершеннолетие - старше 16 лет.
 
-    people[i] = new People();
+            Random random = new();
+            People[] people = new People[100];
 
-    int age = today.Year - newDate.Year;                                       //вычисление возраста
-    if (newDate.AddYears(age) > today)                                         //как работает:  возраст(age) = сегодняшний год(today.Year) - год сгенерированной даты(newDate.Year)
-    {                                                                          //если ( сгенерированная дата(newDate) + возраст(age) ) больше (>) сегодняшняя дата(today)
-        age--;                                                                 //возраст(age)--.
-    }
+            for (int i = 0; i < people.Length; i++)
+            {
+                var d = DateTime.Now.AddDays(-random.Next(36672));
+                people[i] = new People
+                {
+                    Guid = Guid.NewGuid(),
+                    Birth = d,
+                    Age = DateTime.Now.Year - d.Year,
+                };
+                
+            }
 
-    people[i].Guid = Guid.NewGuid();
-    people[i].Birth = newDate;
-    people[i].Age = age;
+            PrintArray(FillArray(people));
+            Console.WriteLine(" | ");
+            PrintArray(FillArrayKID(people));
+        }
+        static People[] FillArray(People[] people)
+        {
+            List<People> result = new List<People>();
+            foreach(People p in people)
+            {
+                if (p.Age > 16)
+                {
+                    result.Add(p);
+                }
+                else
+                {
+                    ;
+                }
+            }
+            return  result.ToArray();
+        }
 
-    
+        static People[] FillArrayKID(People[] people)
+        {
+            List<People> result = new List<People>();
+            foreach (People p in people)
+            {
+                if (p.Age < 16)
+                {
+                    result.Add(p);
+                }
+                else
+                {
+                    ;
+                }
+            }
+            return result.ToArray();
+        }
 
-    Console.WriteLine(people[i].Guid + " | " + people[i].Birth + " | " + people[i].Age);
-   
-}
+        static void PrintArray(People[] people)
+        {
+            foreach(People p in people)
+            {
+                Console.WriteLine(p.Guid + " | " + p.Birth + " | " + p.Age);
+            }
+            
+        }
 
-//for (int i = 0; i < 100; i++)
-//    {
-//        int getsix()
-//    {
-//        int psixteen = 0;
-//        if (people[i].Age > 16)
-//        {
-//            psixteen = people[i].Age;
-//        }
-//        return psixteen;
-//    }
-//        Console.WriteLine(getsix);
-//    }
 public class People
-{
-    public Guid Guid { get; set; }
-    public DateOnly Birth { get; set; } 
-    public int Age { get; set; }
+        {
+            public Guid Guid { get; set; }
+            public DateTime Birth { get; set; }
+            public int Age { get; set; }
+        }
+    }
 }

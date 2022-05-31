@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleApp4
 {
@@ -26,33 +27,24 @@ namespace ConsoleApp4
                 };
             }
             PrintArray(FillArray(people));
-            Console.WriteLine(" | ");
-            PrintArray(FillArrayKID(people));
         }
         static People[] FillArray(People[] people)
         {
             List<People> result = new List<People>();
-            foreach(People p in people)
+            List<People> kids = new List<People>();
+            foreach (People p in people)
             {
                 if (p.Age > 16)
                 {
                     result.Add(p);
                 }
-            }
-            return  result.ToArray();
-        }
-
-        static People[] FillArrayKID(People[] people)
-        {
-            List<People> result = new List<People>();
-            foreach (People p in people)
-            {
-                if (p.Age <= 16)
+                else
                 {
-                    result.Add(p);
+                    kids.Add(p);
                 }
             }
-            return result.ToArray();
+            result = result.Union(kids).ToList();
+            return  result.ToArray();
         }
 
         static void PrintArray(People[] people)

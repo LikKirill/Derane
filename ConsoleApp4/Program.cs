@@ -47,7 +47,7 @@ namespace ConsoleApp4
             List<People> result = new List<People>();
             foreach (People p in people)
             {
-                if (p.Age < 16)
+                if (p.Age <= 16)
                 {
                     result.Add(p);
                 }
